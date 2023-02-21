@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ArchiveDL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:site_name" content="homepage" />
+    <meta property="og:url" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ArchiveDL" />
+
+
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css">
+    <link rel="stylesheet" type="text/css">
+    <!-- Eventually have css imported from a file -->
+    <style>
+      h1 {
+        text-align: center;
+      }
+      input[type="text"] {
+        display: block;
+        margin: 0 auto;
+        width: 300px;
+        resize: none;
+      }
+      textarea {
+        display: block;
+        margin: 0 auto;
+        width: 600px;
+        resize: none;
+        height: 450px;
+      }
+      button[type="submit"] {
+        display: block;
+        margin: 0 auto;
+        width: 600px;
+      }
+      form {
+        text-align: center;
+      }
+      progress {
+        display: block;
+        margin: 0 auto;
+        width: 600px;
+        height: 20px;
+        border-radius: 10px;
+        background-color: #ddd;
+      }
+      progress::-webkit-progress-bar {
+        background-color: #eee;
+      }
+      progress::-webkit-progress-value {
+        background-color: #0066cc;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>ArchiveDL</h1>
+    <form id="download-form">
+      <label for="links">Links: <br>(bunkr mov|m4v don't work)</label>
+      <textarea id="links" name="links" rows="5"></textarea>
+      <br>
+      <button type="submit">Download</button>
+
+    </form>
+    <!-- Eventually add progress bar to show status of download
+    <progress value="0" max="100"></progress>
+    -->
+
+    <!-- Eventually have js imported from a file -->
+    <script>
+      const form = document.getElementById("download-form");
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const linksInput = document.getElementById("links");
+        const links = linksInput.value.split("\n").filter(link => link.trim() !== "");
+        const response = await fetch("/download", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ links })
+        });
+        if (response.ok) {
+          const blob = await response.blob();
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = "download.zip";
+          link.click();
+        } else {
+          alert("Error downloading files");
+        }
+      });
+    </script>
+  </body>
+</html>

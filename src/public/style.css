@@ -1,0 +1,21 @@
+input[type="text"] {
+  display: block;
+  margin: 0 auto;
+  width: 300px;
+  resize: none;
+}
+textarea {
+  display: block;
+  margin: 0 auto;
+  width: 600px;
+  resize: none;
+  height: 450px;
+}
+button[type="submit"] {
+  display: block;
+  margin: 0 auto;
+  width: 600px;
+}
+form {
+  text-align: center;
+}
