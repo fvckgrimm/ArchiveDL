@@ -36,10 +36,10 @@ app.post("/download", async (req, res) => {
  
     for (let i = 0; i < links.length; i++) {
       let link = links[i];
-      if (link.startsWith("https://bunkr.su/a/")) {
+      if (link.startsWith("https://bunkr.su/a/") || link.startsWith("https://bunkr.la/a/")) {
         const response = await axios.get(link);
         const html = response.data;
-        const regex = /https:\/\/cdn\d+\.bunkr\.ru\/\S+\.(jpg|jpeg|png|gif|mp4)/g;
+        const regex = /https:\/\/cdn\d+\.bunkr\.(ru|la)\/\S+\.(jpg|jpeg|png|gif|mp4)/g;
         const cdnLinks = html.match(regex)?.map((cdnLink) => {
           cdnLink = cdnLink.replace("cdn", "media-files");
           if (cdnLink.includes("media-files12.bunkr.ru")) {
